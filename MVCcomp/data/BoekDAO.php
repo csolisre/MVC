@@ -57,5 +57,17 @@ class BoekDAO {
         $stmt->execute(array(':id'=>$id));
         $dbh=null;
     }
+    public function update($boek) {// aqui esta la magia de no hacerlo por id pero ca;biar todo el objeto
+        $dbh= new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $sql= "update mvc_boeken set titel = :titel, genre_id = :genreId where id = :id";
+        $stmt=$dbh->prepare($sql);
+        $stmt->execute(array(
+            ':titel'=>$boek->getTitel(),
+            ':genreId'=>$boek->getGenre()->getId(),
+            ':id'=>$boek->getId()
+        ));
+        $dbh=null;
+        
+    }
 
 }
