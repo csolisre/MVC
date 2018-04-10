@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" class="gr__burger-onlineleren_vdab_be">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+            <title>JS PF project: het Document Object Model</title>
+            <style type="text/css" media="all">
+                body{
+                    font-family:Verdana, Geneva, sans-serif;
+                    color:#333;
+                }
+                img{
+                    float:right;
+                }
+            </style>
+<script type= "text/javascript">
+window.onload = function one(){
+
+                                                                // ADD TO LIST
+var node = document.createElement('li');
+var elemento = document.createTextNode('Perl');
+node.appendChild(elemento);
+document.getElementsByTagName('ul')[0].appendChild(node);
+
+
+var ht= document.getElementsByTagName('ul')[0];
+var ele= document.createElement('li');
+var txt= document.createTextNode('calos');
+ele.appendChild(txt);
+ht.appendChild(ele);
+
+                                                        //Replacing item from list
+ 
+ /* wijzig de tekst van het tweede list item */
+// eerst verwijderen we het tweede item
+var eBolletjes = document.getElementsByTagName('li');
+var nAantal = eBolletjes.length;
+var e2deItem = eBolletjes[1]; // tweede item
+e2deItem.removeChild(e2deItem.childNodes[0]);
+ 
+// daarna creëren we een nieuw item en voegen dit in
+var sTekst = document.createTextNode('C#');
+e2deItem.appendChild(sTekst);
+var ff='text';
+
+
+//Change text
+document.getElementsByTagName('p')[0].innerHTML =`<img src="images/linda.jpg" alt="${ff}Linda, een front-end programmeur"></img>De meeste programmeurs <em>leven</em> op chocolade`;
+
+
+//add div Element
+/* We localiseren de container en maken een div aan met een id "footer" */
+var eContainer = document.getElementById('container');
+var eItem = document.createElement('div');
+eItem.setAttribute("id", "footer");
+ 
+/* We maken een hyperlink aan naar de VDAB website */
+var eLink = document.createElement('a');
+eLink.setAttribute("href", "http://www.vdab.be");
+eLink.setAttribute("target", "_blank");
+sLink = document.createTextNode('VDAB');
+eLink.appendChild(sLink);
+ 
+/* We maken het tekstfragment in een p element*/
+var eFooter = document.createElement('p');
+sTekst1 = document.createTextNode('Je vindt een job op de ');
+sTekst2 = document.createTextNode(' website');
+eFooter.appendChild(sTekst1);
+eFooter.appendChild(eLink);
+eFooter.appendChild(sTekst2);
+    
+/* We voegen de footer (het p element) toe aan de div */
+eItem.appendChild(eFooter);
+ 
+/* We voegen de div toe aan de containter */
+eContainer.appendChild(eItem);
+
+//Mensaje en pantalla
+
+var divs= document.getElementsByTagName('div');
+var aantal= divs.length;
+alert(aantal);
+
+//change first link
+
+var eLink= document.getElementsByTagName('a')[0];
+eLink.setAttribute("href", "http://www.google.com/search?q=Science-fiction&dcr=0&source=lnms&tbm=isch&sa=X");
+eLink.setAttribute("target", "_blank")
+}
+</script>
+    </head>
+    <body data-gr-c-s-loaded="true">
+        <div id="container">
+            <h1 id="kop">Het Document Object Model</h1>
+            <!-- dit is HTML commentaar onzichtbaar in het beeld-->
+            <p><img src="images/linda.jpg" alt="Linda, een front-end programmeur">De meeste programmeurs <em>leven</em> op koffie</p>
+            <p>Veel programmeurs zijn liefhebbers van <a href="http://en.wikipedia.org/wiki/Science-fiction">science-fiction</a></p>
+            <div class="menu">
+                <h2>Onze programmeertalen</h2>
+                <ul>
+                    <li>Javascript</li>
+                    <li>PHP</li>
+                    <li>ASP.Netdd</li>
+                    <li>Java</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </body>
+</html>
