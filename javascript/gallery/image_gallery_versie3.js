@@ -4,82 +4,87 @@
  * and open the template in the editor.
  */
 
-var versie = " versie 3.0";
- //Comprobar si pudeo encontrat el array dentro del archivo
-window.onload = function () {
-    var eNoScript = document.getElementById('noscript');
-        eNoScript.style.display = "none";
-     //array geladen?
-     if(typeof aModernArt == "undefined"){
-          throw new Error("array aModernArt niet gevonden");
-          
-     }
-     else{
-         //console.log(aModernArt[0][0]);
-          //versie info
-          var eKop = document.querySelector('h1');
-          eKop.innerHTML = eKop.innerHTML + versie;
-          //plaatshouder
-          var eImg = document.getElementById('plaatshouder');
-          //dynamische keuzelijst
-          var eKeuzelijst = maakKeuzelijst(aModernArt);
-          var eSidebar = document.querySelector('sidebar');
-          eSidebar.appendChild(eKeuzelijst);
-          eKeuzelijst.addEventListener("change",function(){
-          var waarde = this.value;
-          console.log(waarde);
-          if(waarde!="" && waarde!=null){
-               toonFoto(waarde,eImg)
-          }
-     });
-             
-         }
-     };
+var versie = ' 3.2';
 
-function maakKeuzelijst(a){
-     /*
-     return SELECT element
-     @a array van images
-     */
- 
-     var nArt = a.length;
-     var eSelect = document.createElement('select');
-     eSelect.id = "keuzelijst";
-     //standaard option element
-     var eOption = document.createElement('option');
-     eOption.innerHTML = "Maak een keuze";
-     eOption.setAttribute("value", "");
-     eSelect.appendChild(eOption);
-     //andere option elementen met artiesten
-     for(var i=0;i<nArt;i++){
-          var eOption = document.createElement('option');
-          eOption.innerHTML = a[i][2];
-          eOption.value = i;
-          eSelect.appendChild(eOption);
-     }
-return eSelect;
+window.onload = function () {
+
+    document.getElementById('noscript').style.display = 'none';
+    
+    //Verificar si har erores en la conexcion
+
+    if (typeof aModernArt == 'undefined') {
+        throw new Error('El array no se pudo cargar');
+    } else {
+        //comprobar si jala nuestra conexion de datos
+        console.log(aModernArt[0][1]);
+        aAr=aModernArt
+        var eTitel = document.getElementsByTagName('h1')[0];
+        eTitel.innerHTML = eTitel.textContent + versie;
+        //Empezamos por indicar que objeto modificara
+        var eImage= document.getElementById('plaatshouder');// nos regresa el array del elemento <img>
+        //Identifificamos donde insertara la lista
+        var eSide=document.querySelector('sidebar');//como no es un id si no un elemento o usamos ver elemento con [array position] o suamos querySelector
+        //especificamos lo que va insertar
+        var eList=hacerLista(aModernArt);//aqui decimos que ejecute una fucncion con el array aModernArt
+        //Lo insertamos
+        eSide.appendChild(eList);
+        
+        //crear el eventlistener
+        
+        eList.addEventListener("change", function(){ //el event listener tiene dos parametros (event, action) en este caso el event is "change" puede ser, click, mouse over, etc
+            var waarde=this.value;// el attributo value de la option dentro del select
+            //console.log(waarde); aqui lo podemos comprobar que funcione.
+            //le decimos que cambie el sorce de la imagen
+            //comrobamos que no tenga un valor nulo
+            if (waarde != "" && waarde !=null){
+            mostrar(eImage, waarde);//eImage es el elemento <img> y waarde es el valor del index en el array
+        };
+        });     
+    };
+};
+
+//Crear la funcion hacerLista. aqui creamos la lista select con todas las opciones
+
+function hacerLista(a){ //el a tomara el valor del array
+    var nArt=aModernArt.length; //nos regresara el numero de opciones que debe tener la lista
+    // ahora indicamos el elemento que se debera crear
+    
+    var eSelect= document.createElement('select');
+    // creamos la opcion por default
+    var eOption= document.createElement('option');
+    //Le asigamos el texto
+    eOption.innerHTML='seleciona una imagen';
+    //le asinamo un valor. aqui deveran ser los numeros del array
+    eOption.setAttribute('value',"");
+    // lo agregamos a la lista
+    eSelect.appendChild(eOption);
+    //corremos el loop para los elementos dentro del array
+    
+    for(i=0; i < nArt; i++){
+        var eOption=document.createElement('option');//creamos un elemento
+        eOption.setAttribute('value', i);//le asignamos un valor en este caso el index del array
+        eOption.innerHTML=a[i][2];//le asignamos el texto que mostrara en este caso es el 3 valor del array (0,1,2) dos es el tercer valor
+        eSelect.appendChild(eOption);//lo insertamos en el elemento select
+    }
+    return eSelect; //solo pedimos que regrese la lista pues la insersion appenChil ya se cade en eSide.appendChild(eList); en el windowonload
 }
-function toonFoto(nIndex, eImg){
-      /* wisselt de bron van het src attribuut van de img#beeld
-     @ nIndex, een hyperlink element
-     @ eImg, plaatshouder img
-     @ aModernArt array, global
-     */
-     aArt = aModernArt[nIndex]; //subarray
-     sPad = aArt[0]; //source
-     sInfo = aArt[1]; //info
-     sNaam = aArt[2]; //naam
-     eImg.src = "art/" + sPad;
-     var eInfo = document.getElementById('info');
-     if(eInfo){
-          //wijzig info
-          eInfo.innerHTML = sInfo;
-     }
-     else {
-          //maak nieuwe p#info aan
-          var eInfo = document.createElement('p');
+//Despues de crear la lista regeresamos a la funcion onload para crear el event listener
+
+function mostrar(eImage,nIndex){//nIndex es la variable que tiene el valor en el array como el "$i" la funcion en window.load no dara el valor numerico para hacer esta constulta
+    aArt=aModernArt[nIndex];//aqui ya nos posisiona en cada registro del array;
+    sPath=aArt[0];//no da el primer valor dentro del registro en este caso la url de la imagen
+    sDesc=aArt[1];// Nos da el segundo valor dentro del registro en este caso la descriocion
+    sName=aArt[2];//Nos da el tercer valor del registro en este caso al nombre del artista
+    //le cambiamos el atributo "src" al alemento <img>
+    eImage.src='art/'+ sPath;
+    var eInfo=document.getElementById('info');
+    //ahora creamos el parrafo en la parte superior
+    if (eInfo){
+        eInfo.innerHTML=sDesc + ', '+ sName;
+    }else{
+    var eInfo = document.createElement('p');
           eInfo.id = "info";
-          eInfo.innerHTML = sInfo;
-          eImg.parentNode.insertBefore(eInfo,eImg.parentNode.firstChild);
-     }
+          eInfo.innerHTML = sDesc;
+          eImage.parentNode.insertBefore(eInfo,eImage);
+    }
 }

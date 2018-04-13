@@ -1,0 +1,84 @@
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JS PF taak: feature sensing</title>
+        <style type="text/css">
+            .rood{background-color:#FF8ABF}
+            .groen{background-color:#FF9;}
+            #browserTest{font-weight:bold; background-color:#FF9;}
+            #featureLijst{width:500px;}
+            .support{float:right;}
+            ul{background-color:#D8E6F3;}
+            li{margin:0.2em;}
+        </style>
+        <script>
+
+            var aFeatures = [
+                'document.images',
+                'document.layers',
+                'document.all',
+                'document.getElementById',
+                'document.querySelector',
+                'document.styleSheets',
+                'document.createElement',
+                'document.createNodeIterator',
+                'document.implementation.createDocument',
+                'window.walkTheDog',
+                'window.focus',
+                'window.ActiveXObject',
+                'window.XMLHttpRequest',
+                'window.localStorage',
+                '[].push',
+                '[].filter',
+                'Object.prototype',
+                'navigator.geolocation',
+                'document.documentElement.classList',
+            ];
+
+            //===================================
+            window.onload = function () {
+
+                var eBrowserTest = document.getElementById('browserTest');
+                eBrowserTest.innerHTML = "su navegador es " + navigator.userAgent;
+
+                hasFeatures();
+
+            }
+
+            //===================================
+            function hasFeatures() {
+                var eFeatureLijst = document.getElementById('featureLijst');
+                var nFeatures = aFeatures.length;
+                if (nFeatures > 0) {
+                    var sLijst = "<ul>";
+                    for (i = 0; i < nFeatures; i++) {
+                        var bSupport = (eval(aFeatures[i])) ? true : false;
+                        var sKleur = (bSupport === true) ? 'groen' : 'rood';
+                        sLijst += "<li ";
+                        sLijst += 'class="' + sKleur + '">';
+                        sLijst += aFeatures[i];
+                        sLijst += "<span class=support>" + bSupport + "</span>";
+                        sLijst += '<li>';
+                    }
+                    sLijst += "</ul>";
+                    eFeatureLijst.innerHTML = sLijst;
+                }
+
+
+
+
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <h1>JS PF taak Feature sensing</h1>
+        <div id="browserTest"></div>
+        <p> ondersteunt de volgende objecten, collections, methods, properties:</p>
+        <div id="featureLijst"></div>
+
+    </body>
+</html>
