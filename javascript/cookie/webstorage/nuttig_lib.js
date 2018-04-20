@@ -105,8 +105,8 @@ function rekeningOpenen() {
     // console.log('rekening openen'); para comprobar que funciona
     var sNaam = window.prompt("Uw naam ", "");
     if (sNaam != "" && sNaam != null) {
-        setCookie('klantnaam', sNaam, 100); //crea la cookie nombre de la cookie, valor, tiempo de duracion
-        setCookie('saldo', 100, 100);//el saldo que tiene el cliente al abrir una cuenta
+        localStorage.setItem('klantnaam', sNaam);
+        localStorage.setItem('saldo', 100);
         window.history.go(0);//hace el refresh de la pagina para que los cambios se hagan efectivos sin necesidad de hacer refresh go(aqui es indice de paginas atras en donde 0 es la pagina actual)
     }
 }
@@ -115,8 +115,9 @@ function rekeningOpenen() {
 
 function rekeningSluiten() {
     console.log('rekening sluiten');
-    clearCookie('klantnaam');
-    clearCookie('saldo');
+    localStorage.clear(); //limpia toda el storage
+    //clearCookie('klantnaam');
+    //clearCookie('saldo');
     window.history.go(0);//actualiza la pagina
 }
 
@@ -126,7 +127,7 @@ function berekenen(bewerking) {// espera si es una suma o resta
     var nNieuwSaldo = 0;
     var eBedrag = document.getElementById('bedrag');// el elemento input del formulario
     var sBedrag = eBedrag.value; //el valor insertado en el campo(lo tomara de forma string)
-    var sSaldo = getCookie('saldo');//regresa el saldo en forma de string
+    var sSaldo = localStorage.getItem('saldo');//regresa el saldo en forma de string
     var sBericht = "";
     //en belgica usan la como como punto decimal por eso debemos cambiar
     var re=','; //
@@ -155,7 +156,8 @@ function berekenen(bewerking) {// espera si es una suma o resta
                           
               }else{
                 //actualizamos el valor de la cookie
-                setCookie('saldo', nNieuwSaldo, 100);
+                //setCookie('saldo', nNieuwSaldo, 100);
+                localStorage.setItem('saldo', nNieuwSaldo);
                 window.history.go(0);//refrescamos la ventana
                 eBedrag.value="";// reseteamos el valor del formulario 
             }

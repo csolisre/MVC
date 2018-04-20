@@ -55,9 +55,13 @@
                 var nSaldo = 0; // standaard saldo
                 
                 // Test cookie
-                if(getCookie('klantnaam')){
-                    var sNaam= getCookie('klantnaam');
-                    var nSaldo=parseFloat(getCookie('saldo')).toFixed(2);//retorna el valor como numero limitado a dos decimales
+                if(localStorage){
+                    //kan deze browser dit script aan?
+                    //console.log('localStorage OK');
+                    //console.log(localStorage.klantnaam);
+                    if (localStorage.klantnaam){
+                    var sNaam= localStorage.klantnaam;
+                    var nSaldo=parseFloat(localStorage.saldo).toFixed(2);//retorna el valor como numero limitado a dos decimales
                     //Mensaje
                     sMsg+= "Welkom "+ sNaam+", ";
                     sMsg+= "uw saldo is "+nSaldo+" Euro";
@@ -71,6 +75,7 @@
                     var eKnop=maakKnop('Open rekening');
                     eKnop.addEventListener('click', rekeningOpenen);
                 }
+            }//end test
                 
                 //Crear los elementos en el DOM
                 var dfBericht= document.createDocumentFragment();//creamos el fragmento
